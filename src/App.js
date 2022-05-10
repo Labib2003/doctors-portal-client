@@ -1,10 +1,17 @@
-import logo from './logo.svg';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import About from './Pages/About/About';
+import Home from './Pages/Home/Home';
+import Navbar from './Pages/Shared/Navbar';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello tailwind</h1>
+    <div>
+      <Navbar></Navbar>
+      <Routes>
+        <Route path='/' element={<Home></Home>}></Route>
+        <Route path='/about' element={<About></About>}></Route>
+      </Routes>
     </div>
   );
 }
