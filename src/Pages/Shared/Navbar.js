@@ -21,15 +21,12 @@ const Navbar = () => {
                         {menuItems}
                     </ul>
                 </div>
-                <a class="btn btn-ghost normal-case text-xl">daisyUI</a>
+                <Link to='/' class="btn btn-ghost normal-case text-xl">Doctors Portal</Link>
             </div>
-            <div class="navbar-center hidden lg:flex">
+            <div class="navbar-end hidden lg:flex">
                 <ul class="menu menu-horizontal p-0">
                     {menuItems}
                 </ul>
-            </div>
-            <div class="navbar-end">
-                <a class="btn">Get started</a>
             </div>
         </div>
     );
