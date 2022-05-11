@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../Shared/Footer';
 import Banner from './Banner';
 import DentalCare from './DentalCare';
 import Info from './Info';
@@ -8,13 +9,14 @@ import Testimonials from './Testimonials';
 
 const Home = () => {
     return (
-        <div className='w-4/5 mx-auto'>
+        <div>
             <Banner></Banner>
             <Info></Info>
             <Services></Services>
             <DentalCare></DentalCare>
             <MakeAppointment></MakeAppointment>
             <Testimonials></Testimonials>
+            <Footer></Footer>
         </div>
     );
 };
