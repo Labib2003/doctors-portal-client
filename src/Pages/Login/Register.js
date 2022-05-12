@@ -1,35 +1,40 @@
 import React, { useRef } from 'react';
-import auth from '../../firebase.init';
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import auth from '../../firebase.init';
 
-const Login = () => {
+const Register = () => {
     // react firebase hooks
     const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
     const [
-        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
         user,
         loading,
         error,
-    ] = useSignInWithEmailAndPassword(auth);
+    ] = useCreateUserWithEmailAndPassword(auth);
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
-    // taking input from user
+    // taking user input
+    const nameRef = useRef('');
     const emailRef = useRef('');
     const passwordRef = useRef('');
 
-    // login with email and password
-    const handleLogin = (event) => {
+    // create user with email and password
+    const handleRegister = async (event) => {
         event.preventDefault();
+        const name = nameRef.current.value;
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
-        signInWithEmailAndPassword(email, password);
+        await createUserWithEmailAndPassword(email, password);
+        await updateProfile({displayName: name})
+        navigate("/appointment")
+        nameRef.current.value = '';
         emailRef.current.value = '';
         passwordRef.current.value = '';
-        console.log(email, password);
     };
 
     // show error message in toast
@@ -46,26 +51,29 @@ const Login = () => {
         <div className='flex justify-center h-screen items-center'>
             <div class="card w-96 bg-base-100 shadow-xl">
                 <div class="card-body">
-                    <h2 class="text-center text-xl mb-9">Login</h2>
-                    <form onSubmit={handleLogin} action="">
+                    <h2 class="text-center text-xl mb-9">Register</h2>
+                    <form onSubmit={handleRegister} action="">
+                        <div class="form-control w-full max-w-xs">
+                            <label class="label">
+                                <span class="label-text text-sm">Name</span>
+                            </label>
+                            <input ref={nameRef} type="text" class="input input-bordered w-full max-w-xs" required />
+                        </div>
                         <div class="form-control w-full max-w-xs">
                             <label class="label">
                                 <span class="label-text text-sm">Email</span>
                             </label>
                             <input ref={emailRef} type="email" class="input input-bordered w-full max-w-xs" required />
                         </div>
-                        <div class="form-control w-full max-w-xs">
+                        <div class="form-control w-full max-w-xs mb-5">
                             <label class="label">
                                 <span class="label-text text-sm">Password</span>
                             </label>
                             <input ref={passwordRef} type="password" class="input input-bordered w-full max-w-xs" required />
-                            <label class="label">
-                                <span class="label-text-alt text-xs">Forgot Password ?</span>
-                            </label>
                         </div>
-                        <input type="submit" class="btn w-full btn-accent" value="LOGIN"></input>
+                        <input type="submit" class="btn w-full btn-accent" value="REGISTER"></input>
                     </form>
-                    <p className='text-xs mx-auto'>New to Doctors Portal? <Link to='/register' className='text-secondary'>Create new account</Link></p>
+                    <p className='text-xs mx-auto'>New to Doctors Portal? <Link to='/login' className='text-secondary'>Login</Link></p>
                     <div class="divider text-accent">OR</div>
                     <button class="btn btn-outline btn-accent" onClick={() => signInWithGoogle()}>CONTINUE WITH GOOGLE</button>
                 </div>
@@ -74,4 +82,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
