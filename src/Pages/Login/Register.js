@@ -30,7 +30,7 @@ const Register = () => {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         await createUserWithEmailAndPassword(email, password);
-        await updateProfile({displayName: name})
+        await updateProfile({ displayName: name })
         navigate("/appointment")
         nameRef.current.value = '';
         emailRef.current.value = '';
@@ -49,33 +49,33 @@ const Register = () => {
 
     return (
         <div className='flex justify-center h-screen items-center'>
-            <div class="card w-96 bg-base-100 shadow-xl">
-                <div class="card-body">
-                    <h2 class="text-center text-xl mb-9">Register</h2>
+            <div className="card w-96 bg-base-100 shadow-xl">
+                <div className="card-body">
+                    <h2 className="text-center text-xl mb-9">Register</h2>
                     <form onSubmit={handleRegister} action="">
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text text-sm">Name</span>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text text-sm">Name</span>
                             </label>
-                            <input ref={nameRef} type="text" class="input input-bordered w-full max-w-xs" required />
+                            <input ref={nameRef} type="text" className="input input-bordered w-full max-w-xs" required />
                         </div>
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text text-sm">Email</span>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text text-sm">Email</span>
                             </label>
-                            <input ref={emailRef} type="email" class="input input-bordered w-full max-w-xs" required />
+                            <input ref={emailRef} type="email" className="input input-bordered w-full max-w-xs" required />
                         </div>
-                        <div class="form-control w-full max-w-xs mb-5">
-                            <label class="label">
-                                <span class="label-text text-sm">Password</span>
+                        <div className="form-control w-full max-w-xs mb-5">
+                            <label className="label">
+                                <span className="label-text text-sm">Password</span>
                             </label>
-                            <input ref={passwordRef} type="password" class="input input-bordered w-full max-w-xs" required />
+                            <input ref={passwordRef} type="password" className="input input-bordered w-full max-w-xs" required />
                         </div>
-                        <input type="submit" class="btn w-full btn-accent" value="REGISTER"></input>
+                        <input type="submit" className="btn w-full btn-accent" value="REGISTER"></input>
                     </form>
                     <p className='text-xs mx-auto'>New to Doctors Portal? <Link to='/login' className='text-secondary'>Login</Link></p>
-                    <div class="divider text-accent">OR</div>
-                    <button class="btn btn-outline btn-accent" onClick={() => signInWithGoogle()}>CONTINUE WITH GOOGLE</button>
+                    <div className="divider text-accent">OR</div>
+                    <button className="btn btn-outline btn-accent" onClick={() => signInWithGoogle()}>CONTINUE WITH GOOGLE</button>
                 </div>
             </div>
         </div>

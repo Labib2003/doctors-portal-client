@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import auth from '../../firebase.init';
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
@@ -38,36 +38,38 @@ const Login = () => {
     };
 
     // navigate to previous page
-    if (user || googleUser) {
-        navigate(from, { replace: true });
-    };
+    useEffect(() => {
+        if (user || googleUser) {
+            navigate(from, { replace: true });
+        };
+    }, [user, googleUser, from, navigate]);
 
     return (
         <div className='flex justify-center h-screen items-center'>
-            <div class="card w-96 bg-base-100 shadow-xl">
-                <div class="card-body">
-                    <h2 class="text-center text-xl mb-9">Login</h2>
+            <div className="card w-96 bg-base-100 shadow-xl">
+                <div className="card-body">
+                    <h2 className="text-center text-xl mb-9">Login</h2>
                     <form onSubmit={handleLogin} action="">
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text text-sm">Email</span>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text text-sm">Email</span>
                             </label>
-                            <input ref={emailRef} type="email" class="input input-bordered w-full max-w-xs" required />
+                            <input ref={emailRef} type="email" className="input input-bordered w-full max-w-xs" required />
                         </div>
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text text-sm">Password</span>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text text-sm">Password</span>
                             </label>
-                            <input ref={passwordRef} type="password" class="input input-bordered w-full max-w-xs" required />
-                            <label class="label">
-                                <span class="label-text-alt text-xs">Forgot Password ?</span>
+                            <input ref={passwordRef} type="password" className="input input-bordered w-full max-w-xs" required />
+                            <label className="label">
+                                <span className="label-text-alt text-xs">Forgot Password ?</span>
                             </label>
                         </div>
-                        <input type="submit" class="btn w-full btn-accent" value="LOGIN"></input>
+                        <input type="submit" className="btn w-full btn-accent" value="LOGIN"></input>
                     </form>
                     <p className='text-xs mx-auto'>New to Doctors Portal? <Link to='/register' className='text-secondary'>Create new account</Link></p>
-                    <div class="divider text-accent">OR</div>
-                    <button class="btn btn-outline btn-accent" onClick={() => signInWithGoogle()}>CONTINUE WITH GOOGLE</button>
+                    <div className="divider text-accent">OR</div>
+                    <button className="btn btn-outline btn-accent" onClick={() => signInWithGoogle()}>CONTINUE WITH GOOGLE</button>
                 </div>
             </div>
         </div>
