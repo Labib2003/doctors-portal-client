@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
@@ -14,6 +14,9 @@ const Register = () => {
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+    const [sendEmailVerification, sending, verficationError] = useSendEmailVerification(
+        auth
+    );
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -30,7 +33,9 @@ const Register = () => {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         await createUserWithEmailAndPassword(email, password);
-        await updateProfile({ displayName: name })
+        await updateProfile({ displayName: name });
+        await sendEmailVerification()
+        toast.success("Check your inbox to verify your email.");
         navigate("/appointment")
         nameRef.current.value = '';
         emailRef.current.value = '';

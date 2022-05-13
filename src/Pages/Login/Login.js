@@ -72,7 +72,7 @@ const Login = () => {
                             </label>
                             <input ref={passwordRef} type="password" className="input input-bordered w-full max-w-xs" required />
                             <label className="label">
-                                <span onClick={handlePasswordReset} className="label-text-alt text-xs">Forgot Password ?</span>
+                                <span onClick={handlePasswordReset} className="label-text-alt text-xs cursor-pointer">Forgot Password ?</span>
                             </label>
                         </div>
                         <input type="submit" className="btn w-full btn-accent" value="LOGIN"></input>
