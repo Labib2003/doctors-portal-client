@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import auth from '../../firebase.init';
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -13,6 +13,9 @@ const Login = () => {
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
+    const [sendPasswordResetEmail, sending, resetError] = useSendPasswordResetEmail(
+        auth
+    );
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -27,8 +30,6 @@ const Login = () => {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         signInWithEmailAndPassword(email, password);
-        emailRef.current.value = '';
-        passwordRef.current.value = '';
         console.log(email, password);
     };
 
@@ -41,8 +42,17 @@ const Login = () => {
     useEffect(() => {
         if (user || googleUser) {
             navigate(from, { replace: true });
+            emailRef.current.value = '';
+            passwordRef.current.value = '';
         };
     }, [user, googleUser, from, navigate]);
+
+    // send password reset email
+    const handlePasswordReset = async () => {
+        const email = emailRef.current.value
+        await sendPasswordResetEmail(email);
+        toast.success("Password reset email sent!");
+    }
 
     return (
         <div className='flex justify-center h-screen items-center'>
@@ -62,7 +72,7 @@ const Login = () => {
                             </label>
                             <input ref={passwordRef} type="password" className="input input-bordered w-full max-w-xs" required />
                             <label className="label">
-                                <span className="label-text-alt text-xs">Forgot Password ?</span>
+                                <span onClick={handlePasswordReset} className="label-text-alt text-xs">Forgot Password ?</span>
                             </label>
                         </div>
                         <input type="submit" className="btn w-full btn-accent" value="LOGIN"></input>

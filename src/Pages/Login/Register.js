@@ -73,7 +73,7 @@ const Register = () => {
                         </div>
                         <input type="submit" className="btn w-full btn-accent" value="REGISTER"></input>
                     </form>
-                    <p className='text-xs mx-auto'>New to Doctors Portal? <Link to='/login' className='text-secondary'>Login</Link></p>
+                    <p className='text-xs mx-auto'>Already have an account <Link to='/login' className='text-secondary'>Login</Link></p>
                     <div className="divider text-accent">OR</div>
                     <button className="btn btn-outline btn-accent" onClick={() => signInWithGoogle()}>CONTINUE WITH GOOGLE</button>
                 </div>
