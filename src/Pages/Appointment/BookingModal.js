@@ -1,17 +1,46 @@
 import { format } from 'date-fns';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { toast } from 'react-toastify';
 import auth from '../../firebase.init';
 
-const BookingModal = ({ treatment, date, setTreatment }) => {
+const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
     const [user] = useAuthState(auth);
 
-    const { name, slots } = treatment;
+    const { _id, name, slots } = treatment;
+
+    const formattedDate = format(date, 'PP');
 
     const handleBooking = (event) => {
         event.preventDefault();
         const slot = event.target.slot.value;
-        setTreatment(null);
+        const booking = {
+            treatmentId: _id,
+            treatment: name,
+            date: formattedDate,
+            slot: slot,
+            patient: user.email,
+            phone: event.target.phone.value
+        }
+
+        fetch("http://localhost:5000/booking", {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success){
+                    toast.success(`${name} booked on ${formattedDate} at ${formattedDate}`);
+                }
+                else{
+                    toast.error(`This appointment already booked on ${data.booking?.date} at ${data.booking.slot}`)
+                }
+                refetch();
+                setTreatment(null);
+            })
     }
 
     return (
@@ -30,7 +59,7 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
                         </select>
                         <input type="text" name='name' value={user?.displayName || ''} className="input w-full max-w-xs mb-3" disabled />
                         <input type="email" name='email' value={user?.email || ''} className="input w-full max-w-xs mb-3" disabled />
-                        <input type="number" name='phone' placeholder="Phone" className="input w-full max-w-xs mb-3" />
+                        <input type="number" name='phone' placeholder="Phone" className="input w-full max-w-xs mb-3" required/>
                         <br />
                         <input type="submit" value="Submit" className="btn btn-secondary w-full max-w-xs" />
                     </form>
