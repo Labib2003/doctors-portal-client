@@ -3,6 +3,7 @@ import auth from '../../firebase.init';
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useToken from '../../hooks/useToken';
 
 const Login = () => {
     // react firebase hooks
@@ -19,6 +20,8 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
+
+    const [token] = useToken(user || googleUser);
 
     // taking input from user
     const emailRef = useRef('');
@@ -40,12 +43,12 @@ const Login = () => {
 
     // navigate to previous page
     useEffect(() => {
-        if (user || googleUser) {
+        if (token) {
             navigate(from, { replace: true });
             emailRef.current.value = '';
             passwordRef.current.value = '';
         };
-    }, [user, googleUser, from, navigate]);
+    }, [token, from, navigate]);
 
     // send password reset email
     const handlePasswordReset = async () => {

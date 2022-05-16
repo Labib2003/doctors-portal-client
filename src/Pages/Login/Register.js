@@ -3,6 +3,7 @@ import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInW
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import useToken from '../../hooks/useToken';
 
 const Register = () => {
     // react firebase hooks
@@ -21,6 +22,8 @@ const Register = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
+    const [token] = useToken(user || googleUser);
+
     // taking user input
     const nameRef = useRef('');
     const emailRef = useRef('');
@@ -36,7 +39,7 @@ const Register = () => {
         await updateProfile({ displayName: name });
         await sendEmailVerification()
         toast.success("Check your inbox to verify your email.");
-        navigate("/appointment")
+        // navigate("/");
         nameRef.current.value = '';
         emailRef.current.value = '';
         passwordRef.current.value = '';
@@ -48,8 +51,8 @@ const Register = () => {
     };
 
     // navigate to previous page
-    if (user || googleUser) {
-        navigate(from, { replace: true });
+    if (token) {
+        navigate('/');
     };
 
     return (

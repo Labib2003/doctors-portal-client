@@ -12,7 +12,13 @@ const Navbar = () => {
         <li><Link to='/review'>Review</Link></li>
         <li><Link to='/about'>About</Link></li>
         <li><Link to='/contact'>Contact</Link></li>
-        <li>{user ? <button className='btn btn-ghost' onClick={() => signOut(auth)}>Log Out</button> : <Link to='/login'>Login</Link>}</li>
+        {
+            user && <li><Link to='/dashboard'>Dashboard</Link></li>
+        }
+        <li>{user ? <button className='btn btn-ghost' onClick={() => {
+            signOut(auth);
+            localStorage.removeItem('accessToken');
+        }}>Log Out</button> : <Link to='/login'>Login</Link>}</li>
     </>
     return (
         <div className="navbar bg-base-100 relative z-50">
@@ -31,6 +37,9 @@ const Navbar = () => {
                 <ul className="menu menu-horizontal p-0">
                     {menuItems}
                 </ul>
+                <div className="navbar-end">
+                    <label for="dashboard-sidebar-toggle" class="btn btn-primary drawer-button lg:hidden">o/</label>
+                </div>
             </div>
         </div>
     );

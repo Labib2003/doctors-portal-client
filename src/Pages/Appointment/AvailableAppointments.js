@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import BookingModal from './BookingModal';
 import Service from './Service';
@@ -17,11 +17,6 @@ const AvailableAppointments = ({ date }) => {
         return <p>loading</p>
     }
 
-    // useEffect(() => {
-    //     fetch(`http://localhost:5000/available?date=${formattedDate}`)
-    //         .then(res => res.json())
-    //         .then(data => setServces(data));
-    // }, [formattedDate])
     return (
         <div>
             <h4 className='text-base text-secondary text-center'>Available Appointments on: {format(date, 'PP')}</h4>
