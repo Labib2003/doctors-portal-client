@@ -12,7 +12,7 @@ const MyAppointments = () => {
     const [appointments, setAppointments] = useState([]);
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:5000/booking?patient=${user.email}`, {
+            fetch(`https://doctors-portal-labib.herokuapp.com/booking?patient=${user.email}`, {
                 method: 'GET',
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('accessToken')}`
@@ -59,12 +59,12 @@ const MyAppointments = () => {
                             </thead>
                             <tbody>
                                 {
-                                    appointments.map(appointment => 
-                                    <tr key={appointment.treatmentId}>
-                                        <td>{appointment.treatmentId}</td>
-                                        <td>{appointment.treatment}</td>
-                                        <td>{appointment.slot}</td>
-                                    </tr>)
+                                    appointments.map(appointment =>
+                                        <tr key={appointment.treatmentId}>
+                                            <td>{appointment.treatmentId}</td>
+                                            <td>{appointment.treatment}</td>
+                                            <td>{appointment.slot}</td>
+                                        </tr>)
                                 }
 
                             </tbody>
