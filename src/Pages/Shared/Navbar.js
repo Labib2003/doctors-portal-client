@@ -38,7 +38,7 @@ const Navbar = () => {
                     {menuItems}
                 </ul>
                 <div className="navbar-end">
-                    <label for="dashboard-sidebar-toggle" class="btn btn-primary drawer-button lg:hidden">o/</label>
+                    <label htmlFor="dashboard-sidebar-toggle" className="btn btn-primary drawer-button lg:hidden">o/</label>
                 </div>
             </div>
         </div>
