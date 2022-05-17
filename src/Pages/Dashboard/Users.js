@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import UserRow from './UserRow';
 
 const Users = () => {
-    const { data: users, isLoading, refetch } = useQuery('users', () => fetch('https://doctors-portal-labib.herokuapp.com/users', {
+    const { data: users, isLoading, refetch } = useQuery('users', () => fetch('http://localhost:5000/users', {
         method: 'GET',
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
